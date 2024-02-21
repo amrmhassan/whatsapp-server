@@ -1,3 +1,4 @@
+import 'package:whatsapp_server/features/message/data/datasources/msg_api.dart';
 import 'package:whatsapp_server/features/socket_api/domain/repositories/api.dart';
 import 'package:whatsapp_server/features/socket_server/data/datasources/server_socket.dart';
 import 'package:whatsapp_server/init/runtime_variables.dart';
@@ -7,5 +8,7 @@ import 'package:whatsapp_server/init/runtime_variables.dart';
 late ServerSocket serverSocket;
 void main(List<String> arguments) async {
   api = Api(routerInfo);
+  api.addApis(MsgApi());
+
   serverSocket = ServerSocket(port: 3000);
 }

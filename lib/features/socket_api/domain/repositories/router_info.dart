@@ -30,6 +30,51 @@ class RouterInfo {
       addEntity(entity);
     }
   }
+
+  RouterInfo get(
+    String path,
+    FutureOr<void> Function(SocketDataModel dataModel) handler,
+  ) {
+    RouterEntity entity = RouterEntity(path, SocketMethod.get, handler);
+    addEntity(entity);
+    return this;
+  }
+
+  RouterInfo post(
+    String path,
+    FutureOr<void> Function(SocketDataModel dataModel) handler,
+  ) {
+    RouterEntity entity = RouterEntity(path, SocketMethod.post, handler);
+    addEntity(entity);
+    return this;
+  }
+
+  RouterInfo put(
+    String path,
+    FutureOr<void> Function(SocketDataModel dataModel) handler,
+  ) {
+    RouterEntity entity = RouterEntity(path, SocketMethod.put, handler);
+    addEntity(entity);
+    return this;
+  }
+
+  RouterInfo patch(
+    String path,
+    FutureOr<void> Function(SocketDataModel dataModel) handler,
+  ) {
+    RouterEntity entity = RouterEntity(path, SocketMethod.patch, handler);
+    addEntity(entity);
+    return this;
+  }
+
+  RouterInfo delete(
+    String path,
+    FutureOr<void> Function(SocketDataModel dataModel) handler,
+  ) {
+    RouterEntity entity = RouterEntity(path, SocketMethod.delete, handler);
+    addEntity(entity);
+    return this;
+  }
 }
 
 class RouterEntity {

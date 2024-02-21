@@ -52,7 +52,9 @@ class ServerSocket {
 
       socket.listen(
         (event) async {
-          logger.e(event.toString());
+          SocketDataModel? dataModel = SocketDataModel.fromString(event);
+          if (dataModel == null) return;
+          api.handleSocketRequest(dataModel);
         },
         onDone: () async {
           logger.w('Device $sessionId disconnected');

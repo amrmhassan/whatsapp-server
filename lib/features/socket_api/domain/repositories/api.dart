@@ -17,4 +17,12 @@ class Api {
       print(e);
     }
   }
+
+  void addApis(ApiMask mask) {
+    mask.addApis();
+  }
+}
+
+abstract class ApiMask {
+  Future<void> addApis();
 }
