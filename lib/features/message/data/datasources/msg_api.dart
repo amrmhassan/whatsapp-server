@@ -8,6 +8,6 @@ class MsgApi implements ApiMask {
 
   @override
   Future<void> addApis() async {
-    routerInfo.get(Endpoints.msg, _handler.handleSendMessage);
+    routerInfo.post(Endpoints.msg, _handler.handleSendMessage);
   }
 }

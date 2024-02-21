@@ -18,7 +18,7 @@ class RouterInfo {
 
   void addEntity(RouterEntity entity) {
     bool exist = _entities.any((element) =>
-        element.path == entity.path || element.method == entity.method);
+        element.path == entity.path && element.method == entity.method);
     if (exist) {
       throw Exception('This entity already exists');
     }

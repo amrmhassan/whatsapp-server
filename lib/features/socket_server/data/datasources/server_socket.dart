@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:whatsapp_server/init/runtime_variables.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/constants/endpoints.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
-import 'package:whatsapp_shared_code/whatsapp_shared_code/runtime_variables.dart';
 
 class ServerSocket {
   final InternetAddress _myIp = InternetAddress.anyIPv4;
@@ -37,12 +36,11 @@ class ServerSocket {
 
     connLinkCompleter.complete(server);
     String link = await getConnLink();
-    logger.i('ws server listening at $link');
+    print('ws server listening at $link');
 
     await for (var socket in websocketServer) {
       final model = await socketManager.addNewSocket(webSocket: socket);
       String sessionId = model.sessionId;
-      logger.i('Device Connected With session id : ${model.sessionId}');
       manageSocketsData.sendToClientBySessionId(
         sessionId,
         path: Endpoints.myInfo,
@@ -57,11 +55,10 @@ class ServerSocket {
           api.handleSocketRequest(dataModel);
         },
         onDone: () async {
-          logger.w('Device $sessionId disconnected');
           await socketManager.removeSocket(sessionId);
           int socketsLength = await socketManager.socketsLength();
 
-          logger.i('Remaining devices $socketsLength');
+          print('Remaining devices $socketsLength');
         },
       );
     }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_model.dart';
+import 'package:whatsapp_shared_code/whatsapp_shared_code/runtime_variables.dart';
 
 class SocketManager {
   final List<SocketModel> _sockets = [];
@@ -12,8 +13,11 @@ class SocketManager {
     SocketModel socketModel = SocketModel(
       webSocket: webSocket,
       userId: userId,
+      sessionId: dartId.generate(),
+      onlineSince: DateTime.now(),
     );
     _sockets.add(socketModel);
+
     return socketModel;
   }
 
