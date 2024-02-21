@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:whatsapp_server/init/runtime_variables.dart';
@@ -65,7 +64,7 @@ class ManageSocketsData {
     SocketDataModel dataModel = SocketDataModel(
       path: path,
       method: method,
-      body: json.encode(body),
+      body: body,
       headers: headers,
       receivedAt: receivedAt,
       sentAtServer: DateTime.now(),
