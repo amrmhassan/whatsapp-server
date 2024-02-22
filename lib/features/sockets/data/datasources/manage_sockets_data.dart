@@ -44,12 +44,13 @@ class ManageSocketsData {
     required dynamic body,
     Map<String, dynamic>? headers,
     DateTime? receivedAt,
+    required CronJobType cronJobType,
   }) async {
     var socket = (await socketManager.socketByUserId(userId))?.webSocket;
     if (socket == null) {
       MsgModel model = MsgModel.fromJson(body);
       await cronJobManager.createJob(
-        jobType: CronJobType.message,
+        jobType: cronJobType,
         issuerUserId: model.senderId,
         receiverUserId: model.receiverId,
         data: body,
