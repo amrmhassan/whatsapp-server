@@ -12,5 +12,5 @@ void main(List<String> arguments) async {
   api.addApis(MsgApi());
   api.addApis(SocketsApi());
 
-  serverSocket = ServerSocket(port: 3000);
+  serverSocket = ServerSocket(port: 3002);
 }
