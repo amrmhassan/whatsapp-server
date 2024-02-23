@@ -5,6 +5,8 @@ import 'package:whatsapp_server/features/sockets/data/datasources/socket_data_mo
 import 'package:whatsapp_server/init/runtime_variables.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/msg_model.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
+import 'package:whatsapp_shared_code/whatsapp_shared_code/models/user_data_sending_id.dart';
+import 'package:whatsapp_shared_code/whatsapp_shared_code/runtime_variables.dart';
 
 class ManageSocketsData {
   // this is just used by the server to send and receive the user id then the client will be managed by his id
@@ -34,6 +36,10 @@ class ManageSocketsData {
         body: body,
         headers: headers,
         receivedAt: receivedAt,
+        sendingId: UserDataSendingId(
+          id: sessionId,
+          type: SendingIdType.sessionId,
+        ),
       );
     }
   }
@@ -65,6 +71,10 @@ class ManageSocketsData {
         body: body,
         headers: headers,
         receivedAt: receivedAt,
+        sendingId: UserDataSendingId(
+          id: userId,
+          type: SendingIdType.sessionId,
+        ),
       );
     }
   }
@@ -76,7 +86,9 @@ class ManageSocketsData {
     required dynamic body,
     Map<String, dynamic>? headers,
     DateTime? receivedAt,
+    required UserDataSendingId sendingId,
   }) async {
+    String requestId = dartId.generate();
     SocketDataModel dataModel = SocketDataModel(
       path: path,
       method: method,
@@ -84,9 +96,15 @@ class ManageSocketsData {
       headers: headers,
       receivedAt: receivedAt,
       sentAtServer: DateTime.now(),
+      userDataSendingId: sendingId,
+      id: requestId,
     );
     SocketDataModelSender dataModelSender = SocketDataModelSender();
-    return dataModelSender.sendToClient(webSocket, dataModel);
+    return dataModelSender.sendToClient(
+      webSocket,
+      dataModel,
+      sendingId,
+    );
     //? here add the sending status response
   }
 }

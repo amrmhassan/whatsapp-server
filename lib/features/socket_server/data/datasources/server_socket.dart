@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:whatsapp_server/init/runtime_variables.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/constants/endpoints.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
+import 'package:whatsapp_shared_code/whatsapp_shared_code/models/user_data_sending_id.dart';
 
 class CustomServerSocket {
   final InternetAddress _myIp = InternetAddress.anyIPv4;
@@ -70,9 +71,19 @@ class CustomServerSocket {
   Stream<SocketDataModel> addListener({
     required String path,
     required SocketMethod method,
+    required UserDataSendingId? userDataSendingId,
   }) {
     Stream<SocketDataModel> stream = _streamController.stream;
-    return stream
-        .where((event) => event.path == path && event.method == method);
+    return stream.where((event) {
+      bool request = event.path == path && event.method == method;
+      bool user = false;
+      if (userDataSendingId == null) {
+        user = true;
+      } else if (userDataSendingId.type == event.userDataSendingId.type &&
+          userDataSendingId.id == event.userDataSendingId.id) {
+        user = true;
+      }
+      return request && user;
+    });
   }
 }
