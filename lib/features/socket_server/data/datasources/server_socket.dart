@@ -79,8 +79,8 @@ class CustomServerSocket {
       bool user = false;
       if (userDataSendingId == null) {
         user = true;
-      } else if (userDataSendingId.type == event.userDataSendingId.type &&
-          userDataSendingId.id == event.userDataSendingId.id) {
+      } else if (userDataSendingId.type == event.userDataSendingId?.type &&
+          userDataSendingId.id == event.userDataSendingId?.id) {
         user = true;
       }
       return request && user;
