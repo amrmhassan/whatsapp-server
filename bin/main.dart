@@ -6,11 +6,10 @@ import 'package:whatsapp_server/init/runtime_variables.dart';
 
 // dart run build_runner build --delete-conflicting-outputs
 
-late ServerSocket serverSocket;
 void main(List<String> arguments) async {
   api = Api(routerInfo);
   api.addApis(MsgApi());
   api.addApis(SocketsApi());
 
-  serverSocket = ServerSocket(port: 3002);
+  serverSocket = CustomServerSocket(port: 3002);
 }

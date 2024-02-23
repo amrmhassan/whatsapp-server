@@ -12,6 +12,7 @@ dependencies:
   whatsapp_shared_code: 
     path: ../whatsapp_shared_code
   json_annotation: ^4.8.1
+  crypto: ^3.0.3
 
 
 

@@ -7,12 +7,14 @@ import 'package:whatsapp_server/init/runtime_variables.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/constants/endpoints.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
 
-class ServerSocket {
+class CustomServerSocket {
   final InternetAddress _myIp = InternetAddress.anyIPv4;
   final int port;
   late Stream<WebSocket> websocketServer;
+  final StreamController<SocketDataModel> _streamController =
+      StreamController<SocketDataModel>.broadcast();
 
-  ServerSocket({
+  CustomServerSocket({
     this.port = 0,
   }) {
     _transform();
@@ -53,6 +55,7 @@ class ServerSocket {
           SocketDataModel? dataModel = SocketDataModel.fromString(event);
           if (dataModel == null) return;
           api.handleSocketRequest(dataModel);
+          _streamController.add(dataModel);
         },
         onDone: () async {
           await socketManager.removeSocket(sessionId);
@@ -62,5 +65,14 @@ class ServerSocket {
         },
       );
     }
+  }
+
+  Stream<SocketDataModel> addListener({
+    required String path,
+    required SocketMethod method,
+  }) {
+    Stream<SocketDataModel> stream = _streamController.stream;
+    return stream
+        .where((event) => event.path == path && event.method == method);
   }
 }

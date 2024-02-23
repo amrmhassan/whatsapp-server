@@ -5,9 +5,9 @@ import 'package:whatsapp_shared_code/whatsapp_shared_code/models/msg_model.dart'
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
 
 class MsgDatasource {
-  Future<void> sendMsg(MsgModel msgModel) async {
+  Future<bool> sendMsg(MsgModel msgModel) async {
     print('Receiving message');
-    manageSocketsData.sendToClientByUserID(
+    return manageSocketsData.sendToClientByUserID(
       msgModel.receiverId,
       body: msgModel.toJson(),
       method: SocketMethod.post,

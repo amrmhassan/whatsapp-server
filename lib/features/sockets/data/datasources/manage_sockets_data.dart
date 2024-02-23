@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:whatsapp_server/features/cron_job/data/models/cron_job_type.dart';
+import 'package:whatsapp_server/features/sockets/data/datasources/socket_data_model_sender.dart';
 import 'package:whatsapp_server/init/runtime_variables.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/msg_model.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
 
 class ManageSocketsData {
   // this is just used by the server to send and receive the user id then the client will be managed by his id
-  Future<void> sendToClientBySessionId(
+  Future<bool> sendToClientBySessionId(
     String sessionId, {
     required String path,
     required SocketMethod method,
@@ -24,9 +25,9 @@ class ManageSocketsData {
         receiverUserId: model.receiverId,
         data: body,
       );
-      return;
+      return false;
     } else {
-      await _sendToClient(
+      return _sendToClient(
         webSocket: socket,
         path: path,
         method: method,
@@ -37,7 +38,7 @@ class ManageSocketsData {
     }
   }
 
-  Future<void> sendToClientByUserID(
+  Future<bool> sendToClientByUserID(
     String userId, {
     required String path,
     required SocketMethod method,
@@ -55,9 +56,9 @@ class ManageSocketsData {
         receiverUserId: model.receiverId,
         data: body,
       );
-      return;
+      return false;
     } else {
-      await _sendToClient(
+      return _sendToClient(
         webSocket: socket,
         path: path,
         method: method,
@@ -68,7 +69,7 @@ class ManageSocketsData {
     }
   }
 
-  Future<void> _sendToClient({
+  Future<bool> _sendToClient({
     required WebSocket webSocket,
     required String path,
     required SocketMethod method,
@@ -84,6 +85,8 @@ class ManageSocketsData {
       receivedAt: receivedAt,
       sentAtServer: DateTime.now(),
     );
-    webSocket.add(dataModel.toString());
+    SocketDataModelSender dataModelSender = SocketDataModelSender();
+    return dataModelSender.sendToClient(webSocket, dataModel);
+    //? here add the sending status response
   }
 }

@@ -5,9 +5,9 @@ import 'package:whatsapp_shared_code/whatsapp_shared_code/models/msg_model.dart'
 
 class MsgCronJob implements CronJobHandler {
   @override
-  Future<void> handle(CronJobModel cronJob) async {
+  Future<bool> handle(CronJobModel cronJob) async {
     MsgDatasource msgDatasource = MsgDatasource();
     MsgModel msgModel = MsgModel.fromJson(cronJob.data);
-    await msgDatasource.sendMsg(msgModel);
+    return msgDatasource.sendMsg(msgModel);
   }
 }
