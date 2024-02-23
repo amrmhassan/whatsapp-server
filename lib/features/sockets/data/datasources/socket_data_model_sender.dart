@@ -5,18 +5,9 @@ import 'package:whatsapp_server/init/runtime_variables.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/user_data_sending_id.dart';
 
+//! next thing is the trying multiple times and adding the timeout
+
 class SocketDataModelSender {
-  final int retries;
-
-  /// in milliseconds
-  final int timeout;
-  SocketDataModelSender({
-    this.retries = 5,
-
-    /// 3 seconds
-    this.timeout = 3000,
-  });
-
   final Completer<bool> _completer = Completer<bool>();
   StreamSubscription<SocketDataModel>? _subscription;
 
