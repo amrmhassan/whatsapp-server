@@ -20,7 +20,7 @@ class SendTimeoutClass {
         _retries = retries;
   final SocketDataModelSender _dataModelSender = SocketDataModelSender();
 
-  Future<bool> sentToClint(
+  Future<bool> sendToClient(
     WebSocket webSocket,
     SocketDataModel dataModel,
     UserDataSendingId sendingId,

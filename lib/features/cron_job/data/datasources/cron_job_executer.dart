@@ -6,12 +6,13 @@ class CronJobExecuter {
   Future<void> handleUserCronJobs(String userId) async {
     var userJobs = await cronJobManager.getUserDelayedJobs(userId);
     for (var cronJob in userJobs) {
-      bool sent = false;
+      bool? sent = false;
       if (cronJob.jobType == CronJobType.message) {
         sent = await MsgCronJob().handle(cronJob);
       }
       // this should be at the end of each loop cycle
-      if (sent) {
+      //! i won't add a cron jobs if the sent is null
+      if (sent == true || sent == null) {
         await cronJobManager.deleteJob(cronJob.id);
       }
     }

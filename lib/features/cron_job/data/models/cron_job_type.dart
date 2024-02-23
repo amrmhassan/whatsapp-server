@@ -1,3 +1,4 @@
 enum CronJobType {
   message,
+  other,
 }

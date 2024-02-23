@@ -5,7 +5,7 @@ import 'package:whatsapp_shared_code/whatsapp_shared_code/models/msg_model.dart'
 import 'package:whatsapp_shared_code/whatsapp_shared_code/models/socket_data_model.dart';
 
 class MsgDatasource {
-  Future<bool> sendMsg(MsgModel msgModel) async {
+  Future<bool?> sendMsg(MsgModel msgModel) async {
     print('Receiving message');
     return manageSocketsData.sendToClientByUserID(
       msgModel.receiverId,
@@ -14,6 +14,7 @@ class MsgDatasource {
       path: Endpoints.msg,
       receivedAt: DateTime.now(),
       cronJobType: CronJobType.message,
+      senderUserId: msgModel.senderId,
     );
   }
 }
